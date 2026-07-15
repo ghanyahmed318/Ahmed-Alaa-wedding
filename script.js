@@ -116,30 +116,43 @@ const CONFIG = {
 })();
 
 /* ==========================================================
-   4) GUESTBOOK
+   4) GUESTBOOK — submits to a Google Form so messages persist
    ----------------------------------------------------------
-   حاليًا الرسائل تُحفظ في الذاكرة فقط أثناء الزيارة (تختفي عند
-   إعادة تحميل الصفحة). لجعلها دائمة ومرئية لكل الزوار اربطها
-   بخدمة خارجية مجانية، مثلا:
+   HOW TO CONNECT YOUR OWN GOOGLE FORM (do this once):
 
-   - Google Form  → أرسل بيانات الفورم عبر action الخاص به
-   - Formspree    → https://formspree.io  (فورم جاهز بدون سيرفر)
-   - Firebase / Supabase → لتخزين وعرض الرسائل لحظيًا للجميع
+   1. Go to forms.google.com → create a new form with two
+      short-answer questions, e.g. "الاسم" and "رسالتك".
+   2. Click the three-dot menu → "Get pre-filled link".
+   3. Fill in dummy answers (e.g. "test" / "test") and click
+      "Get link". Copy the long URL you're given.
+   4. That URL looks like:
+      https://docs.google.com/forms/d/e/FORM_ID/viewform?usp=pp_url&entry.111111=test&entry.222222=test
+      - FORM_ID is the long string after /d/e/
+      - entry.111111 is the field ID for your first question
+      - entry.222222 is the field ID for your second question
+   5. Paste those three values into GOOGLE_FORM below.
+   6. Open your Google Form → Responses tab → click the green
+      Sheets icon to see every submission in a spreadsheet,
+      viewable any time, from any device.
 
-   مثال بسيط لإرسال البيانات إلى Formspree بدلاً من الحفظ المحلي:
-
-   fetch('https://formspree.io/f/xxxxxxx', {
-     method: 'POST',
-     headers: { 'Accept': 'application/json' },
-     body: formData
-   });
+   Until you fill this in, submissions are only shown on the
+   page for the current visitor (nothing is lost, but nothing
+   is saved anywhere else either).
    ========================================================== */
+const GOOGLE_FORM = {
+  formId: 'PASTE_YOUR_FORM_ID_HERE',       // from step 4 above
+  nameEntry: 'entry.111111',               // field ID for the name question
+  messageEntry: 'entry.222222'             // field ID for the message question
+};
+
 (function initGuestbook(){
   const form = document.getElementById('guestForm');
   const list = document.getElementById('guestList');
+  const statusEl = document.getElementById('guestStatus');
   if (!form) return;
 
   const messages = [];
+  const isConfigured = GOOGLE_FORM.formId && GOOGLE_FORM.formId !== 'PASTE_YOUR_FORM_ID_HERE';
 
   function render(){
     list.innerHTML = messages
@@ -153,14 +166,51 @@ const CONFIG = {
     return div.innerHTML;
   }
 
+  function showStatus(text, isError){
+    statusEl.hidden = false;
+    statusEl.textContent = text;
+    statusEl.classList.toggle('is-error', !!isError);
+  }
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('guestName').value.trim();
     const msg = document.getElementById('guestMsg').value.trim();
     if (!name || !msg) return;
 
-    messages.unshift({ name, msg });
-    render();
-    form.reset();
+    const submitBtn = form.querySelector('button');
+    submitBtn.disabled = true;
+
+    if (!isConfigured){
+      showStatus('لم يتم ربط النموذج بعد بـ Google Form — راجع التعليمات في script.js لتفعيل الحفظ الدائم.', true);
+      messages.unshift({ name, msg });
+      render();
+      form.reset();
+      submitBtn.disabled = false;
+      return;
+    }
+
+    const body = new URLSearchParams();
+    body.append(GOOGLE_FORM.nameEntry, name);
+    body.append(GOOGLE_FORM.messageEntry, msg);
+
+    const submitUrl = `https://docs.google.com/forms/d/e/${GOOGLE_FORM.formId}/formResponse`;
+
+    // Google Forms doesn't allow reading the response (CORS), so we submit
+    // with no-cors and trust it went through — this is the standard pattern
+    // for posting to Google Forms from a static site.
+    fetch(submitUrl, { method: 'POST', mode: 'no-cors', body })
+      .then(() => {
+        showStatus('تم إرسال رسالتك، شكرًا لكم 💚');
+        messages.unshift({ name, msg });
+        render();
+        form.reset();
+      })
+      .catch(() => {
+        showStatus('حدث خطأ أثناء الإرسال، حاول مرة أخرى.', true);
+      })
+      .finally(() => {
+        submitBtn.disabled = false;
+      });
   });
 })();
