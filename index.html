@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>سارة و يوسف | دعوة زفاف</title>
+<meta name="description" content="بكل الحب ندعوكم لمشاركتنا أجمل لحظات العمر">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- petals layer, filled by script.js -->
+<div class="petals" id="petals" aria-hidden="true"></div>
+
+<!-- ============== COVER / SEAL SCREEN ============== -->
+<section class="cover" id="cover">
+  <div class="cover-inner">
+    <div class="cover-ornament">۞</div>
+    <p class="cover-eyebrow">دعوة زفاف</p>
+    <div class="seal" id="seal">
+      <svg viewBox="0 0 200 200" class="seal-svg">
+        <circle cx="100" cy="100" r="92" class="seal-ring"/>
+        <path id="sealPetals" class="seal-petals"
+          d="M100 40
+             C 118 55, 118 80, 100 100
+             C 82 80, 82 55, 100 40 Z
+             M160 100
+             C 145 118, 120 118, 100 100
+             C 120 82, 145 82, 160 100 Z
+             M100 160
+             C 82 145, 82 120, 100 100
+             C 118 120, 118 145, 100 160 Z
+             M40 100
+             C 55 82, 80 82, 100 100
+             C 80 118, 55 118, 40 100 Z"/>
+        <text x="100" y="107" text-anchor="middle" class="seal-initials">س و ي</text>
+      </svg>
+    </div>
+    <p class="cover-names">سارة <span class="amp">&</span> يوسف</p>
+    <button class="open-btn" id="openBtn" type="button">
+      <span>افتحوا الدعوة</span>
+    </button>
+  </div>
+</section>
+
+<!-- ============== MAIN INVITATION ============== -->
+<main class="invite" id="invite" hidden>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="eyebrow">بكل الحب ندعوكم لمشاركتنا أجمل لحظات العمر</p>
+    <h1 class="hero-names">
+      <span>سارة</span>
+      <span class="amp-big">و</span>
+      <span>يوسف</span>
+    </h1>
+    <div class="divider"><span></span><em>۞</em><span></span></div>
+    <p class="hero-sub">يشرّفنا ويسعدنا حضوركم لمشاركتنا فرحتنا</p>
+  </section>
+
+  <!-- STORY / TIMELINE -->
+  <section class="story">
+    <h2 class="section-title">حكايتنا</h2>
+    <ol class="timeline">
+      <li>
+        <span class="timeline-dot"></span>
+        <div>
+          <p class="timeline-when">أول لقاء</p>
+          <p class="timeline-text">تعارفنا في ربيع عام ٢٠٢١، وكانت البداية.</p>
+        </div>
+      </li>
+      <li>
+        <span class="timeline-dot"></span>
+        <div>
+          <p class="timeline-when">الخِطبة</p>
+          <p class="timeline-text">في نوفمبر ٢٠٢٥، وعدنا بعضنا بحياة كاملة معًا.</p>
+        </div>
+      </li>
+      <li>
+        <span class="timeline-dot"></span>
+        <div>
+          <p class="timeline-when">يوم الزفاف</p>
+          <p class="timeline-text">وأخيرًا، نكمل الحكاية معكم.</p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- COUNTDOWN 1 : HENNA NIGHT -->
+  <section class="event-block">
+    <h2 class="section-title">العد التنازلي لليلة الحنة</h2>
+    <div class="countdown" id="countdownHenna" data-target="2026-08-14T19:00:00">
+      <div class="cd-item"><span class="cd-num" data-unit="days">00</span><span class="cd-label">يوم</span></div>
+      <div class="cd-item"><span class="cd-num" data-unit="hours">00</span><span class="cd-label">ساعة</span></div>
+      <div class="cd-item"><span class="cd-num" data-unit="minutes">00</span><span class="cd-label">دقيقة</span></div>
+      <div class="cd-item"><span class="cd-num" data-unit="seconds">00</span><span class="cd-label">ثانية</span></div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-row"><span class="detail-k">التاريخ</span><span class="detail-v">الجمعة ١٤ أغسطس ٢٠٢٦</span></div>
+      <div class="detail-row"><span class="detail-k">الوقت</span><span class="detail-v">السابعة مساءً</span></div>
+      <div class="detail-row"><span class="detail-k">المكان</span><span class="detail-v">منزل العائلة</span></div>
+      <div class="detail-row"><span class="detail-k">العنوان</span><span class="detail-v">القاهرة — التجمع الخامس، شارع التسعين</span></div>
+      <a class="map-link" href="#" target="_blank" rel="noopener">📍 عرض الموقع على الخريطة</a>
+    </div>
+  </section>
+
+  <!-- COUNTDOWN 2 : WEDDING DAY -->
+  <section class="event-block event-block--alt">
+    <h2 class="section-title">العد التنازلي ليوم الزفاف</h2>
+    <div class="countdown" id="countdownWedding" data-target="2026-08-20T20:00:00">
+      <div class="cd-item"><span class="cd-num" data-unit="days">00</span><span class="cd-label">يوم</span></div>
+      <div class="cd-item"><span class="cd-num" data-unit="hours">00</span><span class="cd-label">ساعة</span></div>
+      <div class="cd-item"><span class="cd-num" data-unit="minutes">00</span><span class="cd-label">دقيقة</span></div>
+      <div class="cd-item"><span class="cd-num" data-unit="seconds">00</span><span class="cd-label">ثانية</span></div>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-row"><span class="detail-k">التاريخ</span><span class="detail-v">الخميس ٢٠ أغسطس ٢٠٢٦</span></div>
+      <div class="detail-row"><span class="detail-k">الوقت</span><span class="detail-v">الثامنة مساءً</span></div>
+      <div class="detail-row"><span class="detail-k">القاعة</span><span class="detail-v">قاعة ليالي الأندلس</span></div>
+      <div class="detail-row"><span class="detail-k">العنوان</span><span class="detail-v">القاهرة الجديدة</span></div>
+      <a class="map-link" href="#" target="_blank" rel="noopener">📍 عرض الموقع على الخريطة</a>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery">
+    <h2 class="section-title">لحظاتنا</h2>
+    <p class="gallery-hint">ضع صورك في مجلد <code>assets/images</code> وحدّث المسارات هنا</p>
+    <div class="gallery-grid">
+      <div class="gallery-item ph"></div>
+      <div class="gallery-item ph"></div>
+      <div class="gallery-item ph"></div>
+      <div class="gallery-item ph"></div>
+    </div>
+  </section>
+
+  <!-- GUESTBOOK -->
+  <section class="guestbook">
+    <h2 class="section-title">اترك رسالة للعروسين</h2>
+    <p class="guestbook-hint">يسعدنا أن تتركوا لنا رسالة أو دعوة جميلة 💌</p>
+
+    <form class="guest-form" id="guestForm">
+      <input type="text" id="guestName" placeholder="الاسم" required>
+      <textarea id="guestMsg" placeholder="رسالتك" rows="3" required></textarea>
+      <button type="submit">إرسال الرسالة</button>
+    </form>
+
+    <ul class="guest-list" id="guestList"></ul>
+    <p class="guestbook-note">* الرسائل تظهر فقط أثناء زيارتك الحالية. لحفظها بشكل دائم اربط النموذج بـ Google Form أو Formspree — راجع التعليمات في script.js</p>
+  </section>
+
+  <!-- RSVP -->
+  <section class="rsvp">
+    <h2 class="section-title">تأكيد الحضور</h2>
+    <p class="rsvp-text">حضوركم يُسعدنا ويُكمل فرحتنا</p>
+    <a class="rsvp-btn" href="#" target="_blank" rel="noopener">تأكيد الحضور عبر الفورم</a>
+  </section>
+
+  <footer class="footer">
+    <div class="divider"><span></span><em>۞</em><span></span></div>
+    <p>بحبنا لكم</p>
+    <p class="footer-names">سارة و يوسف</p>
+  </footer>
+
+</main>
+
+<!-- optional background music -- add a real file at assets/audio/music.mp3 to enable -->
+<audio id="bgm" src="assets/audio/music.mp3" loop preload="none"></audio>
+<button class="music-toggle" id="musicToggle" type="button" aria-label="تشغيل الموسيقى" hidden>♪</button>
+
+<script src="script.js"></script>
+</body>
+</html>
