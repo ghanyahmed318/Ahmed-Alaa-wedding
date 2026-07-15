@@ -12,7 +12,7 @@ const CONFIG = {
    ========================================================== */
 (function initPetals(){
   const layer = document.getElementById('petals');
-  const COUNT = 16;
+  const COUNT = 10;
   for (let i = 0; i < COUNT; i++){
     const p = document.createElement('span');
     p.className = 'petal';
