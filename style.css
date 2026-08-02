@@ -229,6 +229,8 @@ h1,h2{ font-family: var(--display); margin:0; }
 .gallery-hint code{ background: var(--card); border:1px solid var(--line); padding: .1rem .4rem; border-radius: 4px; }
 .gallery-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: .8rem; }
 .gallery-item.ph{ aspect-ratio: 1; border-radius: var(--radius); background: linear-gradient(135deg, var(--line), var(--card)); box-shadow: var(--shadow); }
+.gallery-item{ aspect-ratio: 1; border-radius: var(--radius); overflow:hidden; box-shadow: var(--shadow); }
+.gallery-item img{ width:100%; height:100%; object-fit:cover; display:block; }
 
 /* GUESTBOOK */
 .guestbook{ padding: 3rem 0; text-align:center; }
