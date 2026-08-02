@@ -27,23 +27,38 @@
 | الصور | ضع الصور في `assets/images/` واستبدل `.gallery-item.ph` في `index.html` بعناصر `<img>` |
 | الموسيقى | ضع ملف mp3 في `assets/audio/music.mp3` (نفس الاسم الموجود في `index.html`) |
 
-## ربط دفتر الضيوف بـ Google Form (حتى لا تُحذف الرسائل)
-دفتر الضيوف جاهز للإرسال إلى Google Form الخاص بكم — فقط اتبعوا الخطوات التالية مرة واحدة:
+## ربط دفتر الضيوف بـ Firebase (رسائل مباشرة يراها كل الزوار)
+دفتر الضيوف مبني على Firebase Firestore، بحيث تظهر كل رسالة فورًا لأي شخص يزور الموقع — وتبقى محفوظة دائمًا. الخطوات (مجانية، حوالي ٥ دقائق):
 
-1. اذهبوا إلى **forms.google.com** وأنشئوا فورم جديد بسؤالين قصيرين (مثلاً: "الاسم" و"رسالتك").
-2. من القائمة (⋮) أعلى الفورم اختاروا **"الحصول على رابط مُعبأ مسبقًا" (Get pre-filled link)**.
-3. املأوا إجابتين وهميتين (مثلاً "test" في كل خانة) ثم اضغطوا **"الحصول على الرابط"**.
-4. سينسخ لكم رابطًا طويلاً يشبه:
-   ```
-   https://docs.google.com/forms/d/e/FORM_ID/viewform?usp=pp_url&entry.111111=test&entry.222222=test
-   ```
-   - الجزء بعد `/d/e/` وقبل `/viewform` هو **FORM_ID**
-   - `entry.111111` هو معرّف سؤال "الاسم"
-   - `entry.222222` هو معرّف سؤال "رسالتك"
-5. افتحوا `script.js` وابحثوا عن `GOOGLE_FORM` أعلى قسم GUESTBOOK، واستبدلوا القيم الثلاث بما نسختوه.
-6. لمشاهدة كل الرسائل المُرسَلة: افتحوا الفورم على Google → تبويب **الردود (Responses)** → اضغطوا أيقونة Sheets الخضراء لفتحها كجدول بيانات يمكن مراجعته في أي وقت.
+1. افتحوا **console.firebase.google.com** → **Add project** → اختاروا أي اسم (مثلاً `sara-youssef-wedding`) → إنشاء.
+2. داخل المشروع اضغطوا أيقونة **"</>"** (Web) لتسجيل تطبيق ويب. أعطوه اسمًا، لا حاجة لتفعيل Hosting.
+3. سيظهر لكم كائن `firebaseConfig` يحتوي على `apiKey` و`authDomain` و`projectId` وغيرها — انسخوا هذه القيم إلى `FIREBASE_CONFIG` في أعلى قسم GUESTBOOK داخل `script.js`.
+4. من القائمة الجانبية: **Build → Firestore Database → Create database** → اختاروا **production mode** → اختاروا أقرب منطقة جغرافية لضيوفكم.
+5. من تبويب **Rules** داخل Firestore، الصقوا القواعد التالية ثم اضغطوا **Publish**:
 
-قبل تعبئة هذه القيم، ستظل الرسائل تظهر للزائر الحالي فقط أثناء تصفحه، ولن تُحفظ في مكان آخر — بمجرد الربط، كل رسالة تُرسَل فعليًا إلى الفورم وتبقى محفوظة دائمًا.
+   ```
+   rules_version = '2';
+   service cloud.firestore {
+     match /databases/{database}/documents {
+       match /guestMessages/{message} {
+         allow read: if true;
+         allow create: if request.resource.data.name is string
+                       && request.resource.data.name.size() < 60
+                       && request.resource.data.message is string
+                       && request.resource.data.message.size() < 500;
+         allow update, delete: if false;
+       }
+     }
+   }
+   ```
+
+   هذه القواعد تسمح للجميع بقراءة الرسائل وإضافة رسالة جديدة فقط (بحد أقصى للطول)، ولا تسمح بتعديل أو حذف رسائل الآخرين.
+
+6. ارفعوا `script.js` المُحدَّث إلى GitHub — بمجرد نشر الموقع، ستظهر كل رسالة جديدة فورًا لجميع الزوار، ويمكنكم مراجعة كل الرسائل في أي وقت من **Firestore Database** داخل console Firebase.
+
+**ملاحظة أمان:** لأن القواعد تسمح بالكتابة للجميع بدون تسجيل دخول (لتبسيط الأمر على الضيوف)، قد يتمكن أي شخص يعرف رابط الموقع من إرسال رسائل غير مرغوبة. القيود أعلاه (طول الاسم والرسالة) تقلل من إساءة الاستخدام البسيطة، لكن للمزيد من الحماية يمكن لاحقًا إضافة Firebase App Check أو حد لعدد الطلبات.
+
+**تنبيه:** يجب زيارة الموقع عبر رابط GitHub Pages (https)، وليس بفتح `index.html` مباشرة من جهازكم — وحدات ES Modules (وبالتالي Firebase) لا تعمل عند الفتح المباشر للملف.
 
 ## النشر على GitHub Pages
 1. أنشئ مستودع (Repository) جديد على GitHub.

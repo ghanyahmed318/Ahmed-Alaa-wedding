@@ -116,49 +116,61 @@ const CONFIG = {
 })();
 
 /* ==========================================================
-   4) GUESTBOOK — submits to a Google Form so messages persist
+   4) GUESTBOOK — real-time, shared by every visitor (Firebase)
    ----------------------------------------------------------
-   HOW TO CONNECT YOUR OWN GOOGLE FORM (do this once):
+   HOW TO CONNECT YOUR OWN FIREBASE PROJECT (free, ~5 minutes):
 
-   1. Go to forms.google.com → create a new form with two
-      short-answer questions, e.g. "الاسم" and "رسالتك".
-   2. Click the three-dot menu → "Get pre-filled link".
-   3. Fill in dummy answers (e.g. "test" / "test") and click
-      "Get link". Copy the long URL you're given.
-   4. That URL looks like:
-      https://docs.google.com/forms/d/e/FORM_ID/viewform?usp=pp_url&entry.111111=test&entry.222222=test
-      - FORM_ID is the long string after /d/e/
-      - entry.111111 is the field ID for your first question
-      - entry.222222 is the field ID for your second question
-   5. Paste those three values into GOOGLE_FORM below.
-   6. Open your Google Form → Responses tab → click the green
-      Sheets icon to see every submission in a spreadsheet,
-      viewable any time, from any device.
+   1. Go to https://console.firebase.google.com → "Add project"
+      → name it anything (e.g. "sara-youssef-wedding") → create.
+   2. Inside the project: click the "</>" (Web) icon to register
+      a web app. Give it a nickname, no need for hosting.
+   3. Firebase shows you a firebaseConfig object with apiKey,
+      authDomain, projectId, etc. Copy those values into
+      FIREBASE_CONFIG below.
+   4. In the left sidebar go to Build → Firestore Database →
+      "Create database" → start in production mode → pick any
+      region close to your guests.
+   5. Go to the "Rules" tab of Firestore and paste the rules
+      below (also included in README.md), then click Publish:
 
-   Until you fill this in, submissions are only shown on the
-   page for the current visitor (nothing is lost, but nothing
-   is saved anywhere else either).
+      rules_version = '2';
+      service cloud.firestore {
+        match /databases/{database}/documents {
+          match /guestMessages/{message} {
+            allow read: if true;
+            allow create: if request.resource.data.name is string
+                          && request.resource.data.name.size() < 60
+                          && request.resource.data.message is string
+                          && request.resource.data.message.size() < 500;
+            allow update, delete: if false;
+          }
+        }
+      }
+
+   That's it — every message submitted on the live site will now
+   appear instantly for every visitor, and be stored permanently
+   in Firestore (viewable anytime in the Firebase console).
+
+   Note: this only works when the page is served over https, like
+   on GitHub Pages — opening index.html directly from your
+   computer (file://) will not load Firebase.
    ========================================================== */
-const GOOGLE_FORM = {
-  formId: 'PASTE_YOUR_FORM_ID_HERE',       // from step 4 above
-  nameEntry: 'entry.111111',               // field ID for the name question
-  messageEntry: 'entry.222222'             // field ID for the message question
+const FIREBASE_CONFIG = {
+  apiKey: 'PASTE_API_KEY',
+  authDomain: 'PASTE_PROJECT.firebaseapp.com',
+  projectId: 'PASTE_PROJECT_ID',
+  storageBucket: 'PASTE_PROJECT.appspot.com',
+  messagingSenderId: 'PASTE_SENDER_ID',
+  appId: 'PASTE_APP_ID'
 };
 
-(function initGuestbook(){
+async function initGuestbook(){
   const form = document.getElementById('guestForm');
   const list = document.getElementById('guestList');
   const statusEl = document.getElementById('guestStatus');
   if (!form) return;
 
-  const messages = [];
-  const isConfigured = GOOGLE_FORM.formId && GOOGLE_FORM.formId !== 'PASTE_YOUR_FORM_ID_HERE';
-
-  function render(){
-    list.innerHTML = messages
-      .map(m => `<li><b>${escapeHtml(m.name)}</b><br>${escapeHtml(m.msg)}</li>`)
-      .join('');
-  }
+  const isConfigured = FIREBASE_CONFIG.apiKey && FIREBASE_CONFIG.apiKey !== 'PASTE_API_KEY';
 
   function escapeHtml(str){
     const div = document.createElement('div');
@@ -172,7 +184,45 @@ const GOOGLE_FORM = {
     statusEl.classList.toggle('is-error', !!isError);
   }
 
-  form.addEventListener('submit', (e) => {
+  // Not configured yet: keep the form usable, but explain nothing is shared.
+  if (!isConfigured){
+    const localMessages = [];
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('guestName').value.trim();
+      const msg = document.getElementById('guestMsg').value.trim();
+      if (!name || !msg) return;
+      showStatus('لم يتم ربط الموقع بـ Firebase بعد — راجع التعليمات في script.js لتفعيل الحفظ المشترك.', true);
+      localMessages.unshift({ name, msg });
+      list.innerHTML = localMessages.map(m => `<li><b>${escapeHtml(m.name)}</b><br>${escapeHtml(m.msg)}</li>`).join('');
+      form.reset();
+    });
+    return;
+  }
+
+  const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js');
+  const {
+    getFirestore, collection, addDoc, onSnapshot, query, orderBy, limit, serverTimestamp
+  } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js');
+
+  const app = initializeApp(FIREBASE_CONFIG);
+  const db = getFirestore(app);
+  const guestCol = collection(db, 'guestMessages');
+  const guestQuery = query(guestCol, orderBy('createdAt', 'desc'), limit(100));
+
+  // live-updates the list for every visitor as new messages arrive
+  onSnapshot(guestQuery, (snapshot) => {
+    list.innerHTML = snapshot.docs
+      .map(doc => {
+        const m = doc.data();
+        return `<li><b>${escapeHtml(m.name || '')}</b><br>${escapeHtml(m.message || '')}</li>`;
+      })
+      .join('');
+  }, () => {
+    showStatus('تعذّر تحميل الرسائل، تأكد من صحة إعدادات Firebase وقواعد الأمان.', true);
+  });
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = document.getElementById('guestName').value.trim();
     const msg = document.getElementById('guestMsg').value.trim();
@@ -181,36 +231,16 @@ const GOOGLE_FORM = {
     const submitBtn = form.querySelector('button');
     submitBtn.disabled = true;
 
-    if (!isConfigured){
-      showStatus('لم يتم ربط النموذج بعد بـ Google Form — راجع التعليمات في script.js لتفعيل الحفظ الدائم.', true);
-      messages.unshift({ name, msg });
-      render();
+    try {
+      await addDoc(guestCol, { name, message: msg, createdAt: serverTimestamp() });
+      showStatus('تم إرسال رسالتك، شكرًا لكم 💚');
       form.reset();
+    } catch (err) {
+      showStatus('حدث خطأ أثناء الإرسال، حاول مرة أخرى.', true);
+    } finally {
       submitBtn.disabled = false;
-      return;
     }
-
-    const body = new URLSearchParams();
-    body.append(GOOGLE_FORM.nameEntry, name);
-    body.append(GOOGLE_FORM.messageEntry, msg);
-
-    const submitUrl = `https://docs.google.com/forms/d/e/${GOOGLE_FORM.formId}/formResponse`;
-
-    // Google Forms doesn't allow reading the response (CORS), so we submit
-    // with no-cors and trust it went through — this is the standard pattern
-    // for posting to Google Forms from a static site.
-    fetch(submitUrl, { method: 'POST', mode: 'no-cors', body })
-      .then(() => {
-        showStatus('تم إرسال رسالتك، شكرًا لكم 💚');
-        messages.unshift({ name, msg });
-        render();
-        form.reset();
-      })
-      .catch(() => {
-        showStatus('حدث خطأ أثناء الإرسال، حاول مرة أخرى.', true);
-      })
-      .finally(() => {
-        submitBtn.disabled = false;
-      });
   });
-})();
+}
+
+initGuestbook();
