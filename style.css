@@ -253,15 +253,6 @@ h1,h2{ font-family: var(--display); margin:0; }
 .guestbook-note{ font-size: .75rem; color: var(--ink-soft); max-width: 420px; margin: 1.4rem auto 0; }
 .guestbook-note code{ background: var(--card); border:1px solid var(--line); padding:.05rem .35rem; border-radius:4px; }
 
-/* RSVP */
-.rsvp{ padding: 3rem 0; text-align:center; }
-.rsvp-text{ color: var(--ink-soft); margin-top:-.8rem; margin-bottom:1.6rem; }
-.rsvp-btn{
-  display:inline-block; background: var(--brass); color: #fff; text-decoration:none; font-weight:500;
-  padding: .9rem 2.4rem; border-radius:999px; box-shadow: var(--shadow); transition: transform .25s ease;
-}
-.rsvp-btn:hover{ transform: translateY(-2px); }
-
 /* FOOTER */
 .footer{ text-align:center; padding: 3rem 0 1rem; color: var(--ink-soft); }
 .footer-names{ font-family: var(--display); font-size: 1.4rem; color: var(--green-deep); margin-top:.3rem; }
