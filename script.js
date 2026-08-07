@@ -58,7 +58,7 @@ const CONFIG = {
       cover.classList.add('is-hidden');
       invite.hidden = false;
       document.body.style.overflow = '';
-    }, 750);
+    }, 1300);
   }
 
   seal.addEventListener('click', openInvitation);
