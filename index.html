@@ -17,10 +17,46 @@
 <!-- petals layer, filled by script.js -->
 <div class="petals" id="petals" aria-hidden="true"></div>
 
+<!-- decorative corner florals -->
+<svg class="corner-flower corner-flower--tl" viewBox="0 0 160 160" aria-hidden="true">
+  <path class="stem" d="M8 152 C 30 110, 22 68, 62 38"/>
+  <path class="stem" d="M8 152 C 24 120, 46 100, 72 90"/>
+  <ellipse class="leaf" cx="34" cy="96" rx="14" ry="6" transform="rotate(-40 34 96)"/>
+  <ellipse class="leaf" cx="50" cy="64" rx="12" ry="5" transform="rotate(-60 50 64)"/>
+  <ellipse class="leaf" cx="24" cy="122" rx="13" ry="5" transform="rotate(-20 24 122)"/>
+  <g class="flower" transform="translate(62 38)">
+    <circle r="8" cx="0" cy="-10"/><circle r="8" cx="9" cy="-3"/><circle r="8" cx="6" cy="8"/>
+    <circle r="8" cx="-6" cy="8"/><circle r="8" cx="-9" cy="-3"/>
+    <circle class="flower-center" r="4.5" cx="0" cy="0"/>
+  </g>
+  <g class="flower" transform="translate(74 88)">
+    <circle r="5.5" cx="0" cy="-7"/><circle r="5.5" cx="6.5" cy="-2"/><circle r="5.5" cx="4" cy="6"/>
+    <circle r="5.5" cx="-4" cy="6"/><circle r="5.5" cx="-6.5" cy="-2"/>
+    <circle class="flower-center" r="3" cx="0" cy="0"/>
+  </g>
+</svg>
+<svg class="corner-flower corner-flower--br" viewBox="0 0 160 160" aria-hidden="true">
+  <path class="stem" d="M8 152 C 30 110, 22 68, 62 38"/>
+  <path class="stem" d="M8 152 C 24 120, 46 100, 72 90"/>
+  <ellipse class="leaf" cx="34" cy="96" rx="14" ry="6" transform="rotate(-40 34 96)"/>
+  <ellipse class="leaf" cx="50" cy="64" rx="12" ry="5" transform="rotate(-60 50 64)"/>
+  <ellipse class="leaf" cx="24" cy="122" rx="13" ry="5" transform="rotate(-20 24 122)"/>
+  <g class="flower" transform="translate(62 38)">
+    <circle r="8" cx="0" cy="-10"/><circle r="8" cx="9" cy="-3"/><circle r="8" cx="6" cy="8"/>
+    <circle r="8" cx="-6" cy="8"/><circle r="8" cx="-9" cy="-3"/>
+    <circle class="flower-center" r="4.5" cx="0" cy="0"/>
+  </g>
+  <g class="flower" transform="translate(74 88)">
+    <circle r="5.5" cx="0" cy="-7"/><circle r="5.5" cx="6.5" cy="-2"/><circle r="5.5" cx="4" cy="6"/>
+    <circle r="5.5" cx="-4" cy="6"/><circle r="5.5" cx="-6.5" cy="-2"/>
+    <circle class="flower-center" r="3" cx="0" cy="0"/>
+  </g>
+</svg>
+
 <!-- ============== COVER / SEAL SCREEN ============== -->
 <section class="cover" id="cover">
   <div class="cover-inner">
-    <div class="cover-ornament">۞</div>
+    <div class="cover-ornament">❀</div>
     <p class="cover-eyebrow">دعوة زفاف</p>
     <div class="seal" id="seal">
       <svg viewBox="0 0 200 200" class="seal-svg">
@@ -51,14 +87,18 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-photo"><img src="ahmed-alaa.png" alt="أحمد و ألاء"></div>
+    <div class="hero-photo">
+      <span class="frame-flourish frame-flourish--top" aria-hidden="true">✿</span>
+      <img src="ahmed-alaa.png" alt="أحمد و ألاء">
+      <span class="frame-flourish frame-flourish--bottom" aria-hidden="true">✿</span>
+    </div>
     <p class="eyebrow">بكل الحب ندعوكم لمشاركتنا أجمل لحظات العمر</p>
     <h1 class="hero-names">
       <span>أحمد</span>
       <span class="amp-big">و</span>
       <span>ألاء</span>
     </h1>
-    <div class="divider"><span></span><em>۞</em><span></span></div>
+    <div class="divider"><span></span><em>❀</em><span></span></div>
     <p class="hero-sub">يشرّفنا ويسعدنا حضوركم لمشاركتنا فرحتنا</p>
   </section>
 
@@ -98,7 +138,7 @@
   </section>
 
   <footer class="footer">
-    <div class="divider"><span></span><em>۞</em><span></span></div>
+    <div class="divider"><span></span><em>❀</em><span></span></div>
     <p>بحبنا لكم</p>
     <p class="footer-names">أحمد و ألاء</p>
   </footer>
