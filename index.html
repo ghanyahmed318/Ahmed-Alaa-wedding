@@ -88,11 +88,38 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-photo">
-      <span class="frame-flourish frame-flourish--top" aria-hidden="true">✿</span>
-      <img src="ahmed-alaa.png" alt="أحمد و ألاء">
-      <span class="frame-flourish frame-flourish--bottom" aria-hidden="true">✿</span>
+    <div class="ornate-photo">
+      <div class="oval-photo"><img src="ahmed-alaa.png" alt="أحمد و ألاء"></div>
+      <svg class="ornate-frame" viewBox="0 0 240 320" aria-hidden="true">
+        <defs>
+          <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#F6E7BC"/>
+            <stop offset="35%" stop-color="#CDA430"/>
+            <stop offset="55%" stop-color="#8E6A18"/>
+            <stop offset="80%" stop-color="#EAD08A"/>
+            <stop offset="100%" stop-color="#AD8830"/>
+          </linearGradient>
+        </defs>
+        <path fill-rule="evenodd" fill="url(#goldGrad)"
+          d="M120,30 C185,30 210,90 210,170 C210,250 185,300 120,300
+             C55,300 30,250 30,170 C30,90 55,30 120,30 Z
+             M120,50 C170,50 190,100 190,170 C190,240 170,280 120,280
+             C70,280 50,240 50,170 C50,100 70,50 120,50 Z"/>
+        <ellipse cx="120" cy="170" rx="90" ry="120" fill="none" stroke="#7A5C12" stroke-width="1" opacity=".5"/>
+        <ellipse cx="120" cy="170" rx="70" ry="100" fill="none" stroke="#F6E7BC" stroke-width="1" opacity=".6"/>
+        <g fill="url(#goldGrad)">
+          <path d="M120 8 C124 18 118 25 120 34 C122 25 116 18 120 8 Z"/>
+          <path d="M120 34 C98 16 74 22 66 38 C84 41 100 41 120 34 Z"/>
+          <path d="M120 34 C142 16 166 22 174 38 C156 41 140 41 120 34 Z"/>
+          <circle cx="120" cy="36" r="6.5"/>
+        </g>
+        <path fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round"
+          d="M28 128 C8 140 6 160 20 170 C8 179 10 198 26 205"/>
+        <path fill="none" stroke="url(#goldGrad)" stroke-width="3" stroke-linecap="round"
+          d="M212 128 C232 140 234 160 220 170 C232 179 230 198 214 205"/>
+      </svg>
     </div>
+    <p class="frame-dua">اللهم بارك لهما وبارك عليهما واجمع بينهما في خير</p>
     <p class="eyebrow">بكل الحب ندعوكم لمشاركتنا أجمل لحظات العمر</p>
     <h1 class="hero-names">
       <span>أحمد</span>
