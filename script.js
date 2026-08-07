@@ -33,22 +33,25 @@ const CONFIG = {
 (function initCover(){
   const cover = document.getElementById('cover');
   const seal = document.getElementById('seal');
-  const openBtn = document.getElementById('openBtn');
+  const coverWaiting = document.getElementById('coverWaiting');
   const invite = document.getElementById('invite');
   const musicToggle = document.getElementById('musicToggle');
   const bgm = document.getElementById('bgm');
 
+  let opened = false;
+
   function openInvitation(){
-    if (cover.classList.contains('opening')) return;
+    if (opened) return;
+    opened = true;
     cover.classList.add('opening');
 
-    // try to play background music (only works if a real file exists)
+    // try to play background music (browsers may block this without a
+    // prior tap/click — if so we just reveal the manual music toggle)
     if (bgm && bgm.src){
       bgm.play().then(() => {
         musicToggle.hidden = false;
         musicToggle.textContent = '♪';
       }).catch(() => {
-        // autoplay blocked or no file — that's fine, just show a manual toggle
         musicToggle.hidden = false;
         musicToggle.textContent = '♪';
       });
@@ -61,8 +64,9 @@ const CONFIG = {
     }, 1300);
   }
 
+  // allow an impatient guest to tap to skip straight to the invitation
   seal.addEventListener('click', openInvitation);
-  openBtn.addEventListener('click', openInvitation);
+  coverWaiting.addEventListener('click', openInvitation);
 
   musicToggle.addEventListener('click', () => {
     if (!bgm) return;
@@ -76,6 +80,11 @@ const CONFIG = {
   });
 
   document.body.style.overflow = 'hidden';
+
+  // automatic sequence: let the wreath finish drawing and the names settle,
+  // flash a golden glow at the door seam, then swing the doors open
+  setTimeout(() => cover.classList.add('glow'), 1900);
+  setTimeout(openInvitation, 2500);
 })();
 
 /* ==========================================================
