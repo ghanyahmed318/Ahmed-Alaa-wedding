@@ -1,18 +1,20 @@
 /* ==========================================================
-   TOKENS — White & Beige Garden
+   TOKENS — Brown, Beige & White Gate
    ========================================================== */
 :root{
   --bg:        #FFFFFF;
-  --beige:     #F6EFE2;
-  --card:      #FCFAF5;
-  --line:      #E9DFC9;
-  --ink:       #3B332A;
-  --ink-soft:  #8C8072;
-  --gold:      #B79762;
+  --beige:     #F5EEDF;
+  --card:      #FCFAF4;
+  --line:      #E5D8BE;
+  --ink:       #6B4226;        /* main brown — names & headings */
+  --ink-soft:  #9C7C5C;        /* soft brown — secondary text */
+  --frame:     #5C3A22;        /* deep brown — photo frame */
+  --gold:      #A9875C;
   --gold-dim:  #D8C7A2;
-  --rose:      #D9A7A0;
-  --sage:      #8FA692;
-  --shadow: 0 16px 34px -18px rgba(59,51,42,0.22);
+  --petal:     #FFFFFF;        /* white flower petals */
+  --petal-line:#C9B693;        /* petal outline, beige-brown */
+  --leaf:      #E3D3B2;        /* beige flower leaves/stems */
+  --shadow: 0 16px 34px -18px rgba(92,58,34,0.24);
 
   --display: 'Amiri', serif;
   --body: 'Tajawal', sans-serif;
@@ -48,7 +50,7 @@ h1,h2{ font-family: var(--display); margin:0; }
 .section-title::after{
   content:'❀';
   display:block;
-  color: var(--rose);
+  color: var(--ink);
   font-size: 1rem;
   margin-top: .6rem;
 }
@@ -68,7 +70,7 @@ h1,h2{ font-family: var(--display); margin:0; }
   top:-30px;
   width:10px;
   height:14px;
-  background: var(--rose);
+  background: var(--leaf);
   opacity:0.3;
   border-radius: 0 70% 0 70%;
   animation: fall linear infinite;
@@ -90,10 +92,10 @@ h1,h2{ font-family: var(--display); margin:0; }
 }
 .corner-flower--tl{ top:-6px; left:-6px; }
 .corner-flower--br{ bottom:-6px; right:-6px; transform: rotate(180deg); }
-.corner-flower .stem{ fill:none; stroke: var(--sage); stroke-width:2; }
-.corner-flower .leaf{ fill: var(--sage); opacity:.85; }
-.corner-flower .flower circle{ fill: var(--rose); opacity:.92; }
-.corner-flower .flower-center{ fill: var(--gold); }
+.corner-flower .stem{ fill:none; stroke: var(--leaf); stroke-width:2; }
+.corner-flower .leaf{ fill: var(--leaf); opacity:.9; }
+.corner-flower .flower circle{ fill: var(--petal); stroke: var(--petal-line); stroke-width: 1; opacity:.98; }
+.corner-flower .flower-center{ fill: var(--gold); stroke:none; }
 
 @media (max-width: 480px){
   .corner-flower{ width: 76px; height:76px; opacity:.85; }
@@ -180,7 +182,7 @@ h1,h2{ font-family: var(--display); margin:0; }
 .seal-ring{ fill: none; stroke: var(--gold-dim); stroke-width: 1; }
 .leaf{
   fill: none;
-  stroke: var(--sage);
+  stroke: var(--leaf);
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-dasharray: 70;
@@ -197,7 +199,7 @@ h1,h2{ font-family: var(--display); margin:0; }
   color: var(--ink);
   margin: 0 0 1.8rem;
 }
-.cover-names .amp{ color: var(--rose); padding: 0 .3rem; }
+.cover-names .amp{ color: var(--ink); padding: 0 .3rem; }
 
 .open-btn{
   font-family: var(--body);
@@ -243,7 +245,7 @@ h1,h2{ font-family: var(--display); margin:0; }
   margin: 0 auto 2.2rem;
   padding: 8px;
   background: var(--bg);
-  border: 1px solid var(--gold);
+  border: 2px solid var(--frame);
   box-shadow: 0 0 0 6px var(--bg), 0 0 0 7px var(--gold-dim), var(--shadow);
   border-radius: 6px;
 }
@@ -257,7 +259,7 @@ h1,h2{ font-family: var(--display); margin:0; }
   background: var(--bg);
   border: 1px solid var(--gold);
   border-radius:50%;
-  color: var(--rose);
+  color: var(--ink);
   font-size:1rem;
   z-index:2;
 }
@@ -271,12 +273,12 @@ h1,h2{ font-family: var(--display); margin:0; }
   color: var(--ink);
   flex-wrap:wrap; justify-content:center;
 }
-.amp-big{ font-size: .5em; color: var(--rose); }
+.amp-big{ font-size: .5em; color: var(--ink); }
 .hero-sub{ margin-top: 1.4rem; color: var(--ink-soft); max-width: 320px; }
 
 .divider{ display:flex; align-items:center; gap: .8rem; margin: 1.6rem auto; width: 220px; }
 .divider span{ flex:1; height:1px; background: var(--line); }
-.divider em{ font-style:normal; color: var(--rose); }
+.divider em{ font-style:normal; color: var(--gold); }
 
 /* EVENT / COUNTDOWN BLOCKS */
 .event-block{ padding: 2.6rem 0; border-top: 1px solid var(--line); }
@@ -307,7 +309,7 @@ h1,h2{ font-family: var(--display); margin:0; }
   border-radius: 12px; padding: .8rem 1rem; font-size: .95rem; color: var(--ink); resize: vertical;
 }
 .guest-form input:focus,
-.guest-form textarea:focus{ outline: 2px solid var(--sage); outline-offset: 1px; }
+.guest-form textarea:focus{ outline: 2px solid var(--gold); outline-offset: 1px; }
 .guest-form button{
   align-self:center; background: var(--ink); color: var(--bg); border:none;
   border-radius: 999px; padding: .8rem 2rem; font-family: var(--body); font-weight:500;
