@@ -30,71 +30,61 @@ const CONFIG = {
 /* ==========================================================
    2) COVER / SEAL OPEN SEQUENCE
    ========================================================== */
-(function initScene(){
-  const scene      = document.getElementById('scene');
-  const doors      = document.getElementById('doors');
-  const coupleWrap = document.getElementById('coupleWrap');
-  const introNames = document.getElementById('introNames');
-  const enterBtn   = document.getElementById('enterBtn');
-  const invite     = document.getElementById('invite');
-  const musicToggle= document.getElementById('musicToggle');
-  const bgm        = document.getElementById('bgm');
+(function initCover(){
+  const cover = document.getElementById('cover');
+  const seal = document.getElementById('seal');
+  const coverWaiting = document.getElementById('coverWaiting');
+  const invite = document.getElementById('invite');
+  const musicToggle = document.getElementById('musicToggle');
+  const bgm = document.getElementById('bgm');
 
-  document.body.style.overflow = 'hidden';
+  let opened = false;
 
-  function tryMusic(){
-    if (!bgm) return;
-    bgm.play().then(() => {
-      musicToggle.hidden = false;
-      musicToggle.textContent = '♪';
-    }).catch(() => {
-      musicToggle.hidden = false;
-      musicToggle.textContent = '♪';
-    });
-  }
+  function openInvitation(){
+    if (opened) return;
+    opened = true;
+    cover.classList.add('opening');
 
-  function enterInvitation(){
-    tryMusic();
-    scene.classList.add('is-gone');
-    invite.hidden = false;
-    document.body.style.overflow = '';
-  }
-
-  // tap anywhere on scene to skip to invitation immediately
-  scene.addEventListener('click', () => {
-    if (!introNames.classList.contains('show')) {
-      // still in the cinematic — skip to the names step
-      clearAllTimers();
-      doors.classList.add('open');
-      coupleWrap.classList.add('walk-in');
-      setTimeout(() => introNames.classList.add('show'), 500);
+    // try to play background music (browsers may block this without a
+    // prior tap/click — if so we just reveal the manual music toggle)
+    if (bgm && bgm.src){
+      bgm.play().then(() => {
+        musicToggle.hidden = false;
+        musicToggle.textContent = '♪';
+      }).catch(() => {
+        musicToggle.hidden = false;
+        musicToggle.textContent = '♪';
+      });
     }
-  });
 
-  enterBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    enterInvitation();
-  });
+    setTimeout(() => {
+      cover.classList.add('is-hidden');
+      invite.hidden = false;
+      document.body.style.overflow = '';
+    }, 1300);
+  }
+
+  // allow an impatient guest to tap to skip straight to the invitation
+  seal.addEventListener('click', openInvitation);
+  coverWaiting.addEventListener('click', openInvitation);
 
   musicToggle.addEventListener('click', () => {
     if (!bgm) return;
-    if (bgm.paused){ bgm.play().catch(()=>{}); musicToggle.textContent = '♪'; }
-    else { bgm.pause(); musicToggle.textContent = '⏸'; }
+    if (bgm.paused){
+      bgm.play().catch(() => {});
+      musicToggle.textContent = '♪';
+    } else {
+      bgm.pause();
+      musicToggle.textContent = '⏸';
+    }
   });
 
-  // ---- cinematic timeline ----
-  const timers = [];
-  function later(fn, ms){ const t = setTimeout(fn, ms); timers.push(t); return t; }
-  function clearAllTimers(){ timers.forEach(clearTimeout); }
+  document.body.style.overflow = 'hidden';
 
-  // t=0: scene loads, light beam glows
-  // t=1.4s: doors start swinging open
-  later(() => doors.classList.add('open'), 1400);
-  // t=2.8s: couple walks in through the open doors
-  later(() => coupleWrap.classList.add('walk-in'), 2800);
-  // t=4.8s: couple swaying, names fade in
-  later(() => introNames.classList.add('show'), 4800);
-
+  // automatic sequence: let the wreath finish drawing and the names settle,
+  // flash a golden glow at the door seam, then swing the doors open
+  setTimeout(() => cover.classList.add('glow'), 1900);
+  setTimeout(openInvitation, 2500);
 })();
 
 /* ==========================================================
