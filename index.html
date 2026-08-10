@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ahmed & Alaa - Wedding Invitation</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Great+Vibes&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#d4af37',
+                        goldLight: '#f3e5ab',
+                        darkGreen: '#0b2016',
+                        deepEmerald: '#06160e',
+                        softCream: '#fcfbf7',
+                        lightSage: '#a3b18a',
+                    },
+                    fontFamily: {
+                        serif: ['"Playfair Display"', 'serif'],
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                        cursive: ['"Great Vibes"', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- AOS (Animate on Scroll) CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- GSAP for 3D Animations & Canvas Confetti -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #06160e;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4af37;
+            border-radius: 4px;
+        }
+
+        /* 3D Door Perspective Container */
+        .perspective-container {
+            perspective: 1200px;
+            perspective-origin: 50% 50%;
+        }
+
+        /* 3D Door Panels */
+        .door-left {
+            transform-origin: left center;
+            transform-style: preserve-3d;
+        }
+        .door-right {
+            transform-origin: right center;
+            transform-style: preserve-3d;
+        }
+
+        /* Ornate Door Frame Patterns */
+        .door-pattern {
+            background-color: #0b2016;
+            background-image: radial-gradient(#d4af37 0.75px, transparent 0.75px), radial-gradient(#d4af37 0.75px, #0b2016 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0,15px 15px;
+        }
+
+        /* Silhouette Glow & Entrance */
+        .groom-bride-entrance {
+            filter: drop-shadow(0 0 25px rgba(212, 175, 55, 0.8));
+        }
+    </style>
+</head>
+<body class="bg-softCream text-darkGreen font-sans overflow-hidden" id="body">
+
+    <!-- ========================================== -->
+    <!-- 1. GRAND 3D DOOR GATEWAY -->
+    <!-- ========================================== -->
+    <div id="doorOverlay" class="fixed inset-0 z-50 bg-deepEmerald flex items-center justify-center overflow-hidden perspective-container">
+        
+        <!-- Background Light Portal Behind Doors -->
+        <div id="doorPortal" class="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-t from-gold/20 via-yellow-100/10 to-transparent opacity-0 transition-opacity duration-1000">
+            <!-- Bride & Groom Silhouette Icon/Illustration -->
+            <div id="coupleSilhouette" class="transform scale-50 opacity-0 transition-all duration-1000 flex flex-col items-center justify-center">
+                <i class="fa-solid fa-person-dress-burst text-gold text-8xl md:text-9xl groom-bride-entrance mb-4 animate-pulse"></i>
+                <h3 class="font-cursive text-gold text-4xl md:text-6xl text-center">Ahmed & Alaa</h3>
+            </div>
+        </div>
+
+        <!-- 3D LEFT DOOR -->
+        <div id="leftDoor" class="door-left door-pattern absolute top-0 left-0 w-1/2 h-full border-r-2 border-gold/50 shadow-2xl flex flex-col items-end justify-center pr-4 md:pr-12 z-20">
+            <div class="border-2 border-gold/40 p-6 md:p-12 rounded-l-lg bg-darkGreen/90 text-right max-w-xs md:max-w-md shadow-inner">
+                <span class="font-cursive text-gold text-3xl md:text-5xl block">The Wedding</span>
+                <h2 class="font-cinzel text-2xl md:text-4xl text-softCream font-bold tracking-widest mt-2">AHMED</h2>
+            </div>
+        </div>
+
+        <!-- 3D RIGHT DOOR -->
+        <div id="rightDoor" class="door-right door-pattern absolute top-0 right-0 w-1/2 h-full border-l-2 border-gold/50 shadow-2xl flex flex-col items-start justify-center pl-4 md:pl-12 z-20">
+            <div class="border-2 border-gold/40 p-6 md:p-12 rounded-r-lg bg-darkGreen/90 text-left max-w-xs md:max-w-md shadow-inner">
+                <span class="font-cursive text-gold text-3xl md:text-5xl block">Invitation</span>
+                <h2 class="font-cinzel text-2xl md:text-4xl text-softCream font-bold tracking-widest mt-2">& ALAA</h2>
+            </div>
+        </div>
+
+        <!-- CENTER LOCK / ENTER BUTTON -->
+        <div id="enterBtnContainer" class="absolute z-30 flex flex-col items-center justify-center">
+            <button onclick="openGrand3DDoors()" class="group relative bg-gold hover:bg-yellow-500 text-darkGreen font-cinzel font-bold px-8 py-4 rounded-full shadow-2xl border-4 border-darkGreen transition-all duration-300 transform hover:scale-110 flex items-center gap-3">
+                <i class="fa-solid fa-key text-xl text-darkGreen group-hover:rotate-45 transition-transform duration-300"></i>
+                <span class="tracking-widest text-sm md:text-base">OPEN INVITATION</span>
+            </button>
+            <p class="text-gold/80 font-sans text-xs tracking-widest mt-3 uppercase animate-pulse">Tap to unlock experience</p>
+        </div>
+    </div>
+
+    <!-- Background Music Audio Element -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Music Toggle Controller -->
+    <button id="musicToggle" onclick="toggleMusic()" class="fixed bottom-6 right-6 z-40 bg-gold text-darkGreen w-12 h-12 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition duration-300 hidden border-2 border-darkGreen">
+        <i id="musicIcon" class="fa-solid fa-music text-lg animate-bounce"></i>
+    </button>
+
+
+    <!-- ========================================== -->
+    <!-- 2. HERO COVER SECTION -->
+    <!-- ========================================== -->
+    <header class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+        <!-- Background Banner Photo -->
+        <div class="absolute inset-0 bg-cover bg-center z-0 opacity-40 scale-105 transform transition duration-1000" 
+             style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1920');"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-deepEmerald/80 via-darkGreen/50 to-softCream z-10"></div>
+
+        <div class="relative z-20 px-4" data-aos="zoom-out" data-aos-duration="1500">
+            <p class="font-cursive text-gold text-5xl md:text-7xl mb-2">Save The Date</p>
+            <h1 class="font-cinzel text-5xl md:text-8xl font-bold tracking-widest text-softCream mb-4">AHMED & ALAA</h1>
+            <div class="w-32 h-[2px] bg-gold mx-auto my-6"></div>
+            <p class="text-gold text-lg md:text-2xl font-semibold tracking-widest uppercase">August 23, 2026</p>
+            <p class="text-softCream/90 text-sm md:text-base mt-2 tracking-wider">CAIRO, EGYPT</p>
+            
+            <div class="mt-10">
+                <a href="#rsvp" class="bg-gold hover:bg-yellow-600 text-darkGreen font-cinzel font-bold px-8 py-3 rounded-full tracking-wider text-xs md:text-sm transition duration-300 uppercase shadow-lg inline-block">
+                    RSVP Now
+                </a>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- ========================================== -->
+    <!-- 3. COUNTDOWN TIMER -->
+    <!-- ========================================== -->
+    <section class="py-16 bg-darkGreen text-softCream relative overflow-hidden border-y border-gold/30">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="font-cinzel text-2xl md:text-3xl font-bold text-gold tracking-widest mb-8" data-aos="fade-up">COUNTING DOWN TO OUR FOREVER</h2>
+            
+            <div class="grid grid-cols-4 gap-3 md:gap-6 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-white/5 border border-gold/30 rounded-lg p-3 md:p-6 backdrop-blur-sm shadow-xl">
+                    <span id="days" class="font-cinzel text-2xl md:text-5xl font-bold text-gold">00</span>
+                    <p class="text-[10px] md:text-xs uppercase tracking-widest mt-2 text-lightSage">Days</p>
+                </div>
+                <div class="bg-white/5 border border-gold/30 rounded-lg p-3 md:p-6 backdrop-blur-sm shadow-xl">
+                    <span id="hours" class="font-cinzel text-2xl md:text-5xl font-bold text-gold">00</span>
+                    <p class="text-[10px] md:text-xs uppercase tracking-widest mt-2 text-lightSage">Hours</p>
+                </div>
+                <div class="bg-white/5 border border-gold/30 rounded-lg p-3 md:p-6 backdrop-blur-sm shadow-xl">
+                    <span id="minutes" class="font-cinzel text-2xl md:text-5xl font-bold text-gold">00</span>
+                    <p class="text-[10px] md:text-xs uppercase tracking-widest mt-2 text-lightSage">Mins</p>
+                </div>
+                <div class="bg-white/5 border border-gold/30 rounded-lg p-3 md:p-6 backdrop-blur-sm shadow-xl">
+                    <span id="seconds" class="font-cinzel text-2xl md:text-5xl font-bold text-gold">00</span>
+                    <p class="text-[10px] md:text-xs uppercase tracking-widest mt-2 text-lightSage">Secs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- 4. LOVE STORY TIMELINE -->
+    <!-- ========================================== -->
+    <section class="py-20 px-4 max-w-5xl mx-auto">
+        <div class="text-center mb-16">
+            <span class="font-cursive text-gold text-4xl block">Our Journey</span>
+            <h2 class="font-cinzel text-3xl md:text-4xl font-bold tracking-wider mt-1">HOW IT ALL STARTED</h2>
+            <div class="w-16 h-[2px] bg-gold mx-auto mt-4"></div>
+        </div>
+
+        <div class="relative border-l-2 border-gold/40 ml-4 md:ml-1/2 md:mx-auto max-w-2xl">
+            <!-- Timeline Item 1 -->
+            <div class="mb-12 ml-6 md:ml-0 md:w-1/2 md:pr-8 md:text-right relative" data-aos="fade-right">
+                <div class="absolute -left-2.5 md:-right-2.5 top-1 bg-gold w-5 h-5 rounded-full border-4 border-softCream"></div>
+                <div class="bg-white p-6 rounded-lg shadow-xl border border-gold/20">
+                    <span class="font-cinzel text-gold font-bold block mb-1">FIRST MEETING</span>
+                    <h4 class="font-semibold text-lg text-darkGreen mb-2">A Chance Encounter</h4>
+                    <p class="text-gray-600 text-sm leading-relaxed">Two lives crossed paths, turning an ordinary day into the beginning of a lifelong journey together.</p>
+                </div>
+            </div>
+
+            <!-- Timeline Item 2 -->
+            <div class="mb-12 ml-6 md:translate-x-full md:pl-8 relative" data-aos="fade-left">
+                <div class="absolute -left-2.5 top-1 bg-gold w-5 h-5 rounded-full border-4 border-softCream"></div>
+                <div class="bg-white p-6 rounded-lg shadow-xl border border-gold/20">
+                    <span class="font-cinzel text-gold font-bold block mb-1">THE PROPOSAL</span>
+                    <h4 class="font-semibold text-lg text-darkGreen mb-2">She Said Yes!</h4>
+                    <p class="text-gray-600 text-sm leading-relaxed">Surrounded by warmth and joy, Ahmed asked Alaa to build a future together—and a new chapter began.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- 5. WEDDING LOCATION & MAP -->
+    <!-- ========================================== -->
+    <section class="py-20 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                
+                <div class="space-y-8" data-aos="fade-right">
+                    <div>
+                        <span class="font-cursive text-gold text-4xl block">Join Our Celebration</span>
+                        <h2 class="font-cinzel text-3xl font-bold tracking-wider mt-1">CEREMONY & RECEPTION</h2>
+                        <div class="w-16 h-[2px] bg-gold mt-4"></div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="text-gold mt-1"><i class="fa-solid fa-calendar-check text-2xl"></i></div>
+                            <div>
+                                <h4 class="font-cinzel font-bold text-lg text-darkGreen">Sunday, August 23, 2026</h4>
+                                <p class="text-gray-600 text-sm">Doors open at 7:00 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4">
+                            <div class="text-gold mt-1"><i class="fa-solid fa-map-location-dot text-2xl"></i></div>
+                            <div>
+                                <h4 class="font-cinzel font-bold text-lg text-darkGreen">Grand Wedding Hall</h4>
+                                <p class="text-gray-600 text-sm">Cairo, Egypt</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Google Maps Embed -->
+                <div class="h-80 w-full rounded-lg overflow-hidden shadow-2xl border-2 border-gold/30" data-aos="fade-left">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110502.611863552!2d31.2201!3d30.0444!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14583fa60b21beeb%3A0x79dfb29633617b5!2sCairo%2C%20Egypt!5e0!3m2!1sen!2s!4v1700000000000" 
+                            class="w-full h-full border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- 6. PHOTO GALLERY -->
+    <!-- ========================================== -->
+    <section class="py-20 px-4 max-w-6xl mx-auto">
+        <div class="text-center mb-16">
+            <span class="font-cursive text-gold text-4xl block">Memories</span>
+            <h2 class="font-cinzel text-3xl font-bold tracking-wider mt-1">OUR GALLERY</h2>
+            <div class="w-16 h-[2px] bg-gold mx-auto mt-4"></div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" data-aos="fade-up">
+            <div class="overflow-hidden rounded-lg shadow-xl group border border-gold/20">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=800" alt="Gallery 1" class="w-full h-72 object-cover transition duration-500 group-hover:scale-110">
+            </div>
+            <div class="overflow-hidden rounded-lg shadow-xl group border border-gold/20">
+                <img src="https://images.unsplash.com/photo-1519225495810-7512c696505a?q=80&w=800" alt="Gallery 2" class="w-full h-72 object-cover transition duration-500 group-hover:scale-110">
+            </div>
+            <div class="overflow-hidden rounded-lg shadow-xl group border border-gold/20">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=800" alt="Gallery 3" class="w-full h-72 object-cover transition duration-500 group-hover:scale-110">
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- 7. RSVP SECTION -->
+    <!-- ========================================== -->
+    <section id="rsvp" class="py-20 bg-darkGreen text-softCream">
+        <div class="max-w-md mx-auto px-4 text-center">
+            <div class="mb-10" data-aos="fade-up">
+                <span class="font-cursive text-gold text-4xl block">Confirm Presence</span>
+                <h2 class="font-cinzel text-3xl font-bold tracking-wider mt-1">RSVP</h2>
+                <div class="w-16 h-[2px] bg-gold mx-auto mt-4"></div>
+            </div>
+
+            <div class="bg-white/5 border border-gold/30 p-8 rounded-lg backdrop-blur-sm shadow-2xl" data-aos="zoom-in">
+                <p class="text-sm mb-6 text-lightSage leading-relaxed">
+                    Please confirm your attendance so we can finalize arrangements for our special day.
+                </p>
+
+                <a href="https://forms.google.com" target="_blank" rel="noopener noreferrer" 
+                   class="inline-block w-full bg-gold hover:bg-yellow-500 text-darkGreen font-cinzel font-bold py-3.5 px-6 rounded-md transition duration-300 shadow-xl tracking-widest text-sm uppercase">
+                    Confirm Attendance
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="py-10 bg-deepEmerald text-center text-gold/60 text-xs tracking-widest font-cinzel">
+        <p class="mb-2">AHMED & ALAA — 2026</p>
+        <p>&copy; All Rights Reserved.</p>
+    </footer>
+
+
+    <!-- ========================================== -->
+    <!-- JS ANIMATION LOGIC -->
+    <!-- ========================================== -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggleBtn = document.getElementById('musicToggle');
+        const musicIcon = document.getElementById('musicIcon');
+
+        // GRAND 3D DOOR ANIMATION TIMELINE
+        function openGrand3DDoors() {
+            // Play Music
+            bgMusic.play().catch(e => console.log("Audio waiting for user gesture.", e));
+
+            // Golden Confetti Blast
+            confetti({
+                particleCount: 120,
+                spread: 100,
+                origin: { y: 0.6 },
+                colors: ['#d4af37', '#f3e5ab', '#ffffff']
+            });
+
+            const tl = gsap.timeline();
+
+            // Step 1: Hide Enter Button
+            tl.to("#enterBtnContainer", {
+                duration: 0.5,
+                opacity: 0,
+                scale: 0.8,
+                pointerEvents: "none"
+            });
+
+            // Step 2: Fade in back portal light & couple entrance silhouette
+            tl.to("#doorPortal", {
+                duration: 0.8,
+                opacity: 1
+            }, "-=0.2");
+
+            tl.to("#coupleSilhouette", {
+                duration: 1.2,
+                opacity: 1,
+                scale: 1,
+                ease: "back.out(1.7)"
+            }, "-=0.5");
+
+            // Step 3: 3D Rotate Doors Open
+            tl.to("#leftDoor", {
+                duration: 2,
+                rotateY: -115,
+                ease: "power3.inOut"
+            }, "-=0.8");
+
+            tl.to("#rightDoor", {
+                duration: 2,
+                rotateY: 115,
+                ease: "power3.inOut"
+            }, "<");
+
+            // Step 4: Fade Out Entire Gateway Container
+            tl.to("#doorOverlay", {
+                duration: 1,
+                opacity: 0,
+                pointerEvents: "none",
+                onComplete: () => {
+                    document.getElementById('body').classList.remove('overflow-hidden');
+                    musicToggleBtn.classList.remove('hidden');
+                }
+            }, "+=0.3");
+        }
+
+        function toggleMusic() {
+            if (bgMusic.paused) {
+                bgMusic.play();
+                musicIcon.className = "fa-solid fa-music text-lg animate-bounce";
+            } else {
+                bgMusic.pause();
+                musicIcon.className = "fa-solid fa-volume-xmark text-lg";
+            }
+        }
+
+        // COUNTDOWN TIMER
+        const weddingDate = new Date("Aug 23, 2026 19:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance > 0) {
+                document.getElementById("days").innerText = Math.floor(distance / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                document.getElementById("hours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                document.getElementById("seconds").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
