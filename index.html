@@ -118,39 +118,8 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="ornate-photo">
-      <div class="oval-photo"><img src="ahmed-alaa.png" alt="أحمد و ألاء"></div>
-      <svg class="ornate-frame" viewBox="0 0 240 320" aria-hidden="true">
-        <defs>
-          <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#F8ECC8"/>
-            <stop offset="30%" stop-color="#D3AC42"/>
-            <stop offset="52%" stop-color="#8E6A18"/>
-            <stop offset="75%" stop-color="#EFD79A"/>
-            <stop offset="100%" stop-color="#B08F3C"/>
-          </linearGradient>
-          <mask id="ringMask">
-            <rect width="240" height="320" fill="#000"/>
-            <ellipse cx="120" cy="170" rx="98" ry="128" fill="#fff"/>
-            <ellipse cx="120" cy="170" rx="80" ry="110" fill="#000"/>
-          </mask>
-        </defs>
-
-        <!-- ring, cut from true ellipses so it stays perfectly oval -->
-        <rect width="240" height="320" fill="url(#goldGrad)" mask="url(#ringMask)"/>
-        <ellipse cx="120" cy="170" rx="98" ry="128" fill="none" stroke="#7A5C12" stroke-width="1" opacity=".4"/>
-        <ellipse cx="120" cy="170" rx="80" ry="110" fill="none" stroke="#F8ECC8" stroke-width="1" opacity=".6"/>
-
-        <!-- compact top flower cluster (kept small and close to the frame — no radiating spokes) -->
-        <g fill="url(#goldGrad)"><ellipse cx="120" cy="24" rx="7" ry="5"/><path d="M120 20 C112 12 100 13 96 20 C104 21 112 22 120 20 Z"/><path d="M120 20 C128 12 140 13 144 20 C136 21 128 22 120 20 Z"/></g>
-        <g transform="translate(120.0,12.0) scale(1.0)"><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(0)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(72)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(144)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(216)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(288)"/><circle class="fm-center" r="2"/></g>
-        <g transform="translate(92.0,26.0) scale(0.7)"><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(15)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(87)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(159)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(231)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(303)"/><circle class="fm-center" r="2"/></g>
-        <g transform="translate(148.0,26.0) scale(0.7)"><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(-15)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(57)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(129)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(201)"/><ellipse class="fm-petal" cx="0" cy="-6" rx="3.2" ry="6" transform="rotate(273)"/><circle class="fm-center" r="2"/></g>
-        <path class="fm-leaf" d="M0,-9 C3,-6 3,6 0,9 C-3,6 -3,-6 0,-9 Z" transform="translate(78.0,34.0) rotate(-35) scale(0.75)"/>
-        <path class="fm-leaf" d="M0,-9 C3,-6 3,6 0,9 C-3,6 -3,-6 0,-9 Z" transform="translate(162.0,34.0) rotate(35) scale(0.75)"/>
-        <path class="fm-leaf" d="M0,-9 C3,-6 3,6 0,9 C-3,6 -3,-6 0,-9 Z" transform="translate(103.0,16.0) rotate(-15) scale(0.6)"/>
-        <path class="fm-leaf" d="M0,-9 C3,-6 3,6 0,9 C-3,6 -3,-6 0,-9 Z" transform="translate(137.0,16.0) rotate(15) scale(0.6)"/>
-      </svg>
+    <div class="plain-photo">
+      <img src="ahmed-alaa.png" alt="أحمد و ألاء">
     </div>
     <p class="frame-dua">اللهم بارك لهما وبارك عليهما واجمع بينهما في خير</p>
     <p class="eyebrow">بكل الحب ندعوكم لمشاركتنا أجمل لحظات العمر</p>
@@ -178,7 +147,6 @@
       <div class="detail-row"><span class="detail-k">الوقت</span><span class="detail-v">الثامنة مساءً</span></div>
       <div class="detail-row"><span class="detail-k">القاعة</span><span class="detail-v">قاعة ليلة العمر</span></div>
       <div class="detail-row"><span class="detail-k">العنوان</span><span class="detail-v">عند كوبري شرق النيل</span></div>
-      <a class="map-link" href="#" target="_blank" rel="noopener">📍 عرض الموقع على الخريطة</a>
     </div>
   </section>
 
@@ -195,7 +163,6 @@
 
     <p class="guestbook-status" id="guestStatus" hidden></p>
     <ul class="guest-list" id="guestList"></ul>
-    <p class="guestbook-note">الرسائل تُحفظ فورًا ويراها كل من يزور الموقع بعدك. راجع ملف <code>README.md</code> لربط الموقع بحساب Firebase الخاص بكم (مجاني، ٥ دقائق).</p>
   </section>
 
   <footer class="footer">
