@@ -165,12 +165,12 @@ const CONFIG = {
    computer (file://) will not load Firebase.
    ========================================================== */
 const FIREBASE_CONFIG = {
-  apiKey: 'AIzaSyAmgl3z_S2mq8uMgJw2q9dAri3c5YZ06gs',
-  authDomain: 'ahmed-alaa-wedding.firebaseapp.com',
-  projectId: 'ahmed-alaa-wedding',
-  storageBucket: 'ahmed-alaa-wedding.firebasestorage.app',
-  messagingSenderId: '959955759010',
-  appId: '1:959955759010:web:3947660796bcc1365fccfb'
+  apiKey: 'PASTE_API_KEY',
+  authDomain: 'PASTE_PROJECT.firebaseapp.com',
+  projectId: 'PASTE_PROJECT_ID',
+  storageBucket: 'PASTE_PROJECT.appspot.com',
+  messagingSenderId: 'PASTE_SENDER_ID',
+  appId: 'PASTE_APP_ID'
 };
 
 async function initGuestbook(){
