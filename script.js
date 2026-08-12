@@ -30,61 +30,61 @@ const CONFIG = {
 /* ==========================================================
    2) COVER / SEAL OPEN SEQUENCE
    ========================================================== */
-(function initCover(){
-  const cover = document.getElementById('cover');
-  const seal = document.getElementById('seal');
-  const coverWaiting = document.getElementById('coverWaiting');
-  const invite = document.getElementById('invite');
-  const musicToggle = document.getElementById('musicToggle');
-  const bgm = document.getElementById('bgm');
-
-  let opened = false;
-
-  function openInvitation(){
-    if (opened) return;
-    opened = true;
-    cover.classList.add('opening');
-
-    // try to play background music (browsers may block this without a
-    // prior tap/click — if so we just reveal the manual music toggle)
-    if (bgm && bgm.src){
-      bgm.play().then(() => {
-        musicToggle.hidden = false;
-        musicToggle.textContent = '♪';
-      }).catch(() => {
-        musicToggle.hidden = false;
-        musicToggle.textContent = '♪';
-      });
-    }
-
-    setTimeout(() => {
-      cover.classList.add('is-hidden');
-      invite.hidden = false;
-      document.body.style.overflow = '';
-    }, 1300);
-  }
-
-  // allow an impatient guest to tap to skip straight to the invitation
-  seal.addEventListener('click', openInvitation);
-  coverWaiting.addEventListener('click', openInvitation);
-
-  musicToggle.addEventListener('click', () => {
-    if (!bgm) return;
-    if (bgm.paused){
-      bgm.play().catch(() => {});
-      musicToggle.textContent = '♪';
-    } else {
-      bgm.pause();
-      musicToggle.textContent = '⏸';
-    }
-  });
+(function initScene(){
+  const cover      = document.getElementById('cover');
+  const doors      = document.getElementById('doors');
+  const introNames = document.getElementById('introNames');
+  const enterBtn   = document.getElementById('enterBtn');
+  const invite     = document.getElementById('invite');
+  const musicToggle= document.getElementById('musicToggle');
+  const bgm        = document.getElementById('bgm');
 
   document.body.style.overflow = 'hidden';
 
-  // automatic sequence: let the wreath finish drawing and the names settle,
-  // flash a golden glow at the door seam, then swing the doors open
-  setTimeout(() => cover.classList.add('glow'), 1900);
-  setTimeout(openInvitation, 2500);
+  function tryMusic(){
+    if (!bgm) return;
+    bgm.play().then(() => {
+      musicToggle.hidden = false;
+      musicToggle.textContent = '♪';
+    }).catch(() => {
+      musicToggle.hidden = false;
+      musicToggle.textContent = '♪';
+    });
+  }
+
+  function enterInvitation(){
+    tryMusic();
+    cover.classList.add('is-gone');
+    invite.hidden = false;
+    document.body.style.overflow = '';
+  }
+
+  // tap anywhere to skip straight to names
+  cover.addEventListener('click', () => {
+    clearAllTimers();
+    doors.classList.add('open');
+    setTimeout(() => introNames.classList.add('show'), 600);
+  });
+
+  enterBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    enterInvitation();
+  });
+
+  musicToggle.addEventListener('click', () => {
+    if (!bgm) return;
+    if (bgm.paused){ bgm.play().catch(()=>{}); musicToggle.textContent = '♪'; }
+    else { bgm.pause(); musicToggle.textContent = '⏸'; }
+  });
+
+  // ---- automatic timeline ----
+  const timers = [];
+  function later(fn, ms){ const t = setTimeout(fn, ms); timers.push(t); return t; }
+  function clearAllTimers(){ timers.forEach(clearTimeout); }
+
+  later(() => doors.classList.add('open'), 1000);       // doors swing open at 1s
+  later(() => introNames.classList.add('show'), 2600);  // names appear after doors finish
+
 })();
 
 /* ==========================================================
@@ -165,12 +165,12 @@ const CONFIG = {
    computer (file://) will not load Firebase.
    ========================================================== */
 const FIREBASE_CONFIG = {
-  apiKey: 'PASTE_API_KEY',
-  authDomain: 'PASTE_PROJECT.firebaseapp.com',
-  projectId: 'PASTE_PROJECT_ID',
-  storageBucket: 'PASTE_PROJECT.appspot.com',
-  messagingSenderId: 'PASTE_SENDER_ID',
-  appId: 'PASTE_APP_ID'
+  apiKey: 'AIzaSyAmgl3z_S2mq8uMgJw2q9dAri3c5YZ06gs',
+  authDomain: 'ahmed-alaa-wedding.firebaseapp.com',
+  projectId: 'ahmed-alaa-wedding',
+  storageBucket: 'ahmed-alaa-wedding.firebasestorage.app',
+  messagingSenderId: '959955759010',
+  appId: '1:959955759010:web:3947660796bcc1365fccfb'
 };
 
 async function initGuestbook(){
