@@ -197,7 +197,7 @@ h1,h2{ font-family:var(--display); font-weight:700; }
 .invite[hidden]{ display:none; }
 
 .section-title{ font-size:clamp(1.6rem,3.8vw,2rem); color:var(--ink); text-align:center; margin-bottom:1.8rem; position:relative; }
-.section-title::after{ content:'🌸'; display:block; font-size:1.1rem; margin-top:.5rem; }
+.section-title::after{ content:'✨'; display:block; font-size:1.1rem; margin-top:.5rem; }
 
 .hero{ min-height:92vh; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding-top:3rem; }
 .plain-photo{ width:min(240px,65vw); margin:.5rem auto 0; position:relative; }
